@@ -20,7 +20,7 @@ if (process.env.DYNO) {
 passport.use(new SwoopStrategy({
     clientID: process.env['SWOOP_CLIENT_ID'],
     clientSecret: process.env['SWOOP_CLIENT_SECRET'],
-    callbackURL: 'http://localhost:8080/auth/swoop/callback',
+    callbackURL: '/auth/swoop/callback',
     proxy: trustProxy
   },
   function(profile, cb) {
