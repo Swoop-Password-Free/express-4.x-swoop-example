@@ -1,21 +1,21 @@
 {
-  "name": "express-4.x-twitter-example",
+  "name": "express-4.x-swoop-example",
   "version": "0.0.0",
-  "description": "Express 4.x app using Passport for authentication with Twitter.",
+  "description": "Express 4.x app using Passport for authentication with Swoop.",
   "keywords": [
     "example",
     "express",
     "passport"
   ],
-  "author": "Jared Hanson",
+  "author": "Swoop In Technologies",
   "license": "Unlicense",
-  "homepage": "https://github.com/passport/express-4.x-twitter-example",
+  "homepage": "https://github.com/Swoop-Password-Free/express-4.x-swoop-example",
   "repository": {
     "type": "git",
-    "url": "git://github.com/passport/express-4.x-twitter-example.git"
+    "url": "git://github.com/Swoop-Password-Free/express-4.x-swoop-example.git"
   },
   "bugs": {
-    "url": "https://github.com/passport/express-4.x-twitter-example/issues"
+    "url": "https://github.com/Swoop-Password-Free/express-4.x-swoop-example/issues"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -26,6 +26,6 @@
     "express-session": "^1.16.1",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-twitter": "^1.0.4"
+    "passport-swoop": "^0.1.0"
   }
 }

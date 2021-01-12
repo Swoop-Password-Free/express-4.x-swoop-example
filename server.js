@@ -2,7 +2,7 @@ require('dotenv').config();
 
 var express = require('express');
 var passport = require('passport');
-var Strategy = require('passport-twitter').Strategy;
+var SwoopStrategy = require('passport-swoop').Strategy;
 
 var trustProxy = false;
 if (process.env.DYNO) {
@@ -11,22 +11,21 @@ if (process.env.DYNO) {
 }
 
 
-// Configure the Twitter strategy for use by Passport.
+// Configure the Swoop strategy for use by Passport.
 //
-// OAuth 1.0-based strategies require a `verify` function which receives the
-// credentials (`token` and `tokenSecret`) for accessing the Twitter API on the
-// user's behalf, along with the user's profile.  The function must invoke `cb`
-// with a user object, which will be set at `req.user` in route handlers after
+// OAuth 2.0-based strategies require a `verify` function which receives the
+// the user's profile (email and id).  The function must invoke `cb` with a user
+// object, which will be set at `req.user` in route handlers after
 // authentication.
-passport.use(new Strategy({
-    consumerKey: process.env['TWITTER_CONSUMER_KEY'],
-    consumerSecret: process.env['TWITTER_CONSUMER_SECRET'],
-    callbackURL: '/oauth/callback',
+passport.use(new SwoopStrategy({
+    clientID: process.env['SWOOP_CLIENT_ID'],
+    clientSecret: process.env['SWOOP_CLIENT_SECRET'],
+    callbackURL: 'http://localhost:8080/auth/swoop/callback',
     proxy: trustProxy
   },
-  function(token, tokenSecret, profile, cb) {
-    // In this example, the user's Twitter profile is supplied as the user
-    // record.  In a production-quality application, the Twitter profile should
+  function(profile, cb) {
+    // In this example, the user's email is supplied as the user
+    // record.  In a production-quality application, the Swoop email/id should
     // be associated with a user record in the application's database, which
     // allows for account linking and authentication with other identity
     // providers.
@@ -41,7 +40,7 @@ passport.use(new Strategy({
 // production-quality application, this would typically be as simple as
 // supplying the user ID when serializing, and querying the user record by ID
 // from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Twitter profile is serialized
+// example does not have a database, the complete Swoop profile is serialized
 // and deserialized.
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -86,11 +85,11 @@ app.get('/login',
     res.render('login');
   });
 
-app.get('/login/twitter',
-  passport.authenticate('twitter'));
+app.get('/auth/swoop',
+  passport.authenticate('swoop'));
 
-app.get('/oauth/callback',
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
+app.get('/auth/swoop/callback',
+  passport.authenticate('swoop', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
